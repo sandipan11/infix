@@ -9,5 +9,5 @@ public interface ExpressionVisitor<T> {
 
     T visit(BinaryOp binaryOp);
 
-    T visit(UnaryOp binaryOp);
+    T visit(UnaryOp unaryOp);
 }

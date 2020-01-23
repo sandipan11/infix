@@ -31,11 +31,11 @@ public class EvaluatorVisitor implements ExpressionVisitor<Double> {
     }
 
     @Override
-    public Double visit(UnaryOp binaryOp) {
+    public Double visit(UnaryOp unaryOp) {
 
-        switch (binaryOp.getType()) {
+        switch (unaryOp.getType()) {
             case NEGATION:
-                return -binaryOp.getOperand().accept(this);
+                return -unaryOp.getOperand().accept(this);
         }
 
         throw new IllegalStateException();

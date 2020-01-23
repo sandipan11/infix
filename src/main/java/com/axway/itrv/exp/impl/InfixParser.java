@@ -1,13 +1,11 @@
 package com.axway.itrv.exp.impl;
 
-import com.axway.itrv.exp.Expression;
-import jdk.jshell.spi.ExecutionControl;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
+
+import com.axway.itrv.exp.Expression;
 
 /**
  * Infix parser parses an infix expression and creates an AST.
@@ -16,6 +14,7 @@ import java.util.ArrayList;
  */
 public class InfixParser {
 
+    // parses a possible operand of a unary expression (a constant or a paranthesized expression)
     private Expression parsePosTerm(Tokenizer tokenizer) throws IOException, ParseException {
         var token = tokenizer.peek();
         switch (tokenizer.peek().getType()) {
@@ -36,6 +35,7 @@ public class InfixParser {
         }
     }
 
+    // parses an operand, paranthesized expression or a unary operand
     private Expression parseTerm(Tokenizer tokenizer) throws IOException, ParseException {
         var token = tokenizer.peek();
         if (token.getType() == Token.Type.SUB) {
@@ -46,6 +46,16 @@ public class InfixParser {
         return parsePosTerm(tokenizer);
     }
 
+    // parses an expression with a certain level of precedence
+    // there are two levels of precedence
+    // 0 - addition and substraction
+    // 1 - multiplication and division
+    // for a certain level of precedence there should be a left term :
+    // - an expression of a higher level of precedence
+    // - a unary operation
+    // - a plain constant
+    // - a paranthesized expression
+    // if a binary operator follows the right term then the right term can be an expression of the same level of precedence
     private Expression parseExpression(Tokenizer tokenizer, int precedence) throws IOException, ParseException {
         var left = precedence <= 1 ? parseExpression(tokenizer, precedence+1) : parseTerm(tokenizer);
         var token = tokenizer.peek();

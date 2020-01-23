@@ -31,7 +31,7 @@ public class Tokenizer  {
     }
 
 
-    private Token nextHelper() throws IOException, ParseException {
+    private Token readNext() throws IOException, ParseException {
         int c = stream.read();
         switch (c) {
             case -1:
@@ -64,14 +64,14 @@ public class Tokenizer  {
     }
 
     /**
-     * Tries to read another token and returns it.
+     * Returns the next token to be read from the stream.
      * @return
      * @throws IOException
      * @throws ParseException
      */
     public Token peek() throws  IOException, ParseException {
         if (last == null) {
-            last = nextHelper();
+            last = readNext();
         }
 
         return last;
@@ -79,7 +79,7 @@ public class Tokenizer  {
 
 
     /**
-     * Forces peek to return the next character.
+     * Advances one token.
      * @return
      */
     public void next() {

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 
-class TokenizerTest {
+public class TokenizerTest {
 
     private BufferedInputStream bufferedStream(String input) {
         return new BufferedInputStream(new ByteArrayInputStream(input.getBytes()));

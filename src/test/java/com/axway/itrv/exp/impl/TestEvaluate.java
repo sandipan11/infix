@@ -85,8 +85,10 @@ public class TestEvaluate {
         var evaluator = new EvaluatorVisitor();
                 
         TestCase[] testCases = {
-            new TestCase("5!", 1),
-            new TestCase("(-1  + 2*3!)", 3),
+            new TestCase("5!", 120),
+            new TestCase("-3!", -6),
+            new TestCase("(-1  + 2*3!)", 11),
+            new TestCase("(-1  + 4)!", 6),
         };
 
         for (var testCase: testCases) {

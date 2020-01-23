@@ -1,8 +1,8 @@
 package com.axway.itrv.exp.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class TestEvaluate {
 
@@ -37,12 +37,14 @@ public class TestEvaluate {
                 double result = expression.accept(evaluator);
 
                 // Evaluate expression
-                assertEquals(testCase.expected,
+                assertEquals(String.format("Expected %s=%.2f", testCase.exp, testCase.expected),
+                             testCase.expected,
                              result,
-                             String.format("Expected %s=%.2f", testCase.exp, testCase.expected));
+                             0
+                             );
             }
             catch (Exception e) {
-                throw new Exception("Failed to parse/evaluate " + testCase.exp, e);
+                throw new Exception("Failed to parse/evaluate \""  + testCase.exp + "\"", e);
             }
         };
     }
@@ -65,12 +67,14 @@ public class TestEvaluate {
                 double result = expression.accept(evaluator);
 
                 // Evaluate expression
-                assertEquals(testCase.expected,
+                assertEquals(String.format("Expected %s=%.2f", testCase.exp, testCase.expected),
+                             testCase.expected,
                              result,
-                             String.format("Expected %s=%.2f", testCase.exp, testCase.expected));
+                             0
+                             );
             }
             catch (Exception e) {
-                throw new Exception("Failed to parse/evaluate "  + testCase.exp, e);
+                throw new Exception("Failed to parse/evaluate \""  + testCase.exp + "\"", e);
             }
         };
     }
@@ -92,12 +96,14 @@ public class TestEvaluate {
                 double result = expression.accept(evaluator);
 
                 // Evaluate expression
-                assertEquals(testCase.expected,
+                assertEquals(String.format("Expected %s=%.2f", testCase.exp, testCase.expected),
+                             testCase.expected,
                              result,
-                             String.format("Expected %s=%.2f", testCase.exp, testCase.expected));
+                             0
+                             );
             }
             catch (Exception e) {
-                throw new Exception("Failed to parse/evaluate " + testCase.exp, e);
+                throw new Exception("Failed to parse/evaluate \""  + testCase.exp + "\"", e);
             }
         };
     }

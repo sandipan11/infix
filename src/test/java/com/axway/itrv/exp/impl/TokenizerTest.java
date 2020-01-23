@@ -2,14 +2,16 @@ package com.axway.itrv.exp.impl;
 
 import com.axway.itrv.exp.impl.Token;
 import com.axway.itrv.exp.impl.Tokenizer;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class TokenizerTest {
 

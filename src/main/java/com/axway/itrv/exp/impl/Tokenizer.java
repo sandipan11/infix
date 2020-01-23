@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.text.ParseException;
 
 
+/**
+  * Tokenizer is a 1 char lookahead lexer that creates a string of Tokens from an input stream.
+  */
 public class Tokenizer  {
 
     private BufferedInputStream stream;
@@ -14,7 +17,6 @@ public class Tokenizer  {
     }
 
     private Token last;
-
     private Token readOperand(int c) throws IOException {
         int val = 0;
 
@@ -77,7 +79,7 @@ public class Tokenizer  {
 
 
     /**
-     * Returns the last read token or null if  {@link #next()} hasn't been called
+     * Forces peek to return the next character.
      * @return
      */
     public void next() {

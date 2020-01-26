@@ -28,6 +28,7 @@ public class Token {
         DIV,
         LPAREN,
         RPAREN,
+        FACT,
         EOF;
     }
 

@@ -27,6 +27,7 @@ public class TestEvaluate {
                 new TestCase("1-2", -1),
                 new TestCase("-1",  -1),
                 new TestCase("2*3+1", 7),
+				new TestCase("1*3", 3),
                 new TestCase("2*(3+1)",  8),
                 new TestCase("2*(-3+1)", -4),
         };
@@ -85,10 +86,16 @@ public class TestEvaluate {
         var evaluator = new EvaluatorVisitor();
                 
         TestCase[] testCases = {
+        	new TestCase("2!", 2),	
             new TestCase("5!", 120),
+            new TestCase("2!+1", 3),
+            new TestCase("1+5!+1", 122),
+        	new TestCase("-2!", -2),
             new TestCase("-3!", -6),
             new TestCase("(-1  + 2*3!)", 11),
+        	new TestCase("(1 + 4)!", 120),
             new TestCase("(-1  + 4)!", 6),
+            new TestCase("(-1  - 4)!", -120),
         };
 
         for (var testCase: testCases) {

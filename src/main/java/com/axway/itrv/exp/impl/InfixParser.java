@@ -55,6 +55,7 @@ public class InfixParser {
     // - a unary operation
     // - a plain constant
     // - a paranthesized expression
+    // - a factor
     // if a binary operator follows the right term then the right term can be an expression of the same level of precedence
     private Expression parseExpression(Tokenizer tokenizer, int precedence) throws IOException, ParseException {
         var left = precedence <= 1 ? parseExpression(tokenizer, precedence+1) : parseTerm(tokenizer);
@@ -75,7 +76,31 @@ public class InfixParser {
                     return left;
                 }
                 break;
-            default:
+            case FACT:
+            	 if (precedence > 1) {
+            		 
+            		 Tokenizer tokenizerFact = null;
+            		 if(left instanceof Constant) {
+            			 tokenizerFact = new Tokenizer(new BufferedInputStream(new ByteArrayInputStream(generateFactorialExpression((int)((Constant)left).getValue()).getBytes())));
+            		 }
+            		 
+            	     if(left instanceof UnaryOp) { 
+            	    	 Constant unaryObj =  (Constant)((UnaryOp)left).getOperand();
+            	    	 
+            			 tokenizerFact = new Tokenizer(new BufferedInputStream(new ByteArrayInputStream(generateFactorialExpression((int)unaryObj.getValue()).getBytes())));
+            		 }
+            	   
+            	     if(left instanceof BinaryOp) { 
+            	    	 BinaryOp binaryOp =  ((BinaryOp)left);
+            	    	 
+            			 tokenizerFact = new Tokenizer(new BufferedInputStream(new ByteArrayInputStream(generateFactorialExpression(binaryOp).getBytes())));
+            		 }
+
+            		 tokenizer.next();
+            		 return new BinaryOp(token.getType().MUL, left, parseExpression(tokenizerFact, 1));
+            	 }
+            	 break;
+			default:
                 throw new ParseException(String.format("Unexpected token: %s", token), 0);
         }
         tokenizer.next();
@@ -93,4 +118,86 @@ public class InfixParser {
 
             return result;
     };
+    
+    
+    /**
+     * This method generate expression for factorial if you provide a number, So if left is only number, we can use this method
+     * If you prove 3, it will return (3-1)*(3-2)
+     * 
+     */
+    private String generateFactorialExpression(int number) {
+    	   	
+    	int factNumberCount = 1;
+    	
+    	StringBuffer expression = new StringBuffer();
+    	    	
+    	while(number> factNumberCount) {
+    		
+    		if(factNumberCount>1)
+    			expression.append("*");
+    		
+    		expression.append("(").append(number).append('-').append(factNumberCount).append(")");
+    		factNumberCount++;
+    	}
+    	
+    	return expression.toString();
+    	
+    }
+    
+    /**
+     * This method generate expression for factorial if left expression is of BinaryOp Type
+     * 
+     */
+     private String generateFactorialExpression(BinaryOp binaryOp) {
+    	 
+    	 int leftNumber = 0;
+    	 int rightNumber = 0;
+    	 
+    	 if(binaryOp.getLeft() instanceof Constant) { 
+    		 leftNumber = (int) ((Constant)binaryOp.getLeft()).getValue();
+    	 }
+    	 
+    	 if(binaryOp.getLeft() instanceof UnaryOp) { 
+    		 leftNumber = leftNumber - (int) ((Constant)((UnaryOp)binaryOp.getLeft()).getOperand()).getValue();
+    	 }
+    	 
+    	 if(binaryOp.getRight() instanceof Constant) { 
+    		 rightNumber = (int) ((Constant)binaryOp.getRight()).getValue();
+    	 }
+    	 
+    	 if(binaryOp.getRight() instanceof UnaryOp) { 
+    		 rightNumber = rightNumber - (int) ((Constant)((UnaryOp)binaryOp.getRight()).getOperand()).getValue();
+    	 }  	 
+    	 
+    	 String operation = binaryOp.getType().name();
+    	 
+    	 int factNumber = 0;
+    	 if(operation.equalsIgnoreCase("ADD")) {    	 
+    		 factNumber = leftNumber + rightNumber;
+    		 operation = "+";
+    	 } else if(operation.equalsIgnoreCase("SUB")) {    	 
+    		 factNumber = leftNumber - rightNumber;
+    		 operation = "-";
+    	 }
+    	 
+    	 if(factNumber<0) {
+    		 factNumber = 0 - factNumber;
+    	 }
+	   	
+    	int factNumberCount = 1;
+    	
+    	StringBuffer expression = new StringBuffer();
+    	
+    	while(factNumber> factNumberCount) {
+    		
+    		if(factNumberCount>1)
+    			expression.append("*");
+    		
+    		expression.append("(").append(leftNumber).append(operation).append(rightNumber).append('-').append(factNumberCount).append(")");
+    		factNumberCount++;
+    	}
+    	
+    	return expression.toString();
+    	
+    }
 }

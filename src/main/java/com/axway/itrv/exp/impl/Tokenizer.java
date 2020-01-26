@@ -45,13 +45,18 @@ public class Tokenizer  {
             case '-':
                 return new Token(Token.Type.SUB);
             case '(':
-                return new Token(Token.Type.LPAREN);
+                return new Token(Token.Type.LPAREN); 
+            case '!':
+                return new Token(Token.Type.FACT);
             case ')':
                 return new Token(Token.Type.RPAREN);
+            case ' ':
+            	return readNext();
             case '0':
             case '1':
             case '2':
             case '3':
+            case '4':
             case '5':
             case '6':
             case '7':
